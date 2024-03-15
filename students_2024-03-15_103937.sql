@@ -71,6 +71,8 @@ ALTER TABLE public.majors OWNER TO freecodecamp;
 --
 
 CREATE TABLE public.majors_courses (
+    major_id integer NOT NULL,
+    course_id integer NOT NULL
 );
 
 
@@ -157,11 +159,74 @@ ALTER TABLE ONLY public.students ALTER COLUMN student_id SET DEFAULT nextval('pu
 
 
 --
+-- Data for Name: courses; Type: TABLE DATA; Schema: public; Owner: freecodecamp
+--
+
+COPY public.courses (course_id, course) FROM stdin;
+1	Data Structures and Algorithms
+\.
+
+
+--
+-- Data for Name: majors; Type: TABLE DATA; Schema: public; Owner: freecodecamp
+--
+
+COPY public.majors (major_id, major) FROM stdin;
+1	Database Administration
+\.
+
+
+--
+-- Data for Name: majors_courses; Type: TABLE DATA; Schema: public; Owner: freecodecamp
+--
+
+COPY public.majors_courses (major_id, course_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: students; Type: TABLE DATA; Schema: public; Owner: freecodecamp
+--
+
+COPY public.students (student_id, first_name, last_name, major_id, gpa) FROM stdin;
+\.
+
+
+--
+-- Name: courses_course_id_seq; Type: SEQUENCE SET; Schema: public; Owner: freecodecamp
+--
+
+SELECT pg_catalog.setval('public.courses_course_id_seq', 1, true);
+
+
+--
+-- Name: majors_major_id_seq; Type: SEQUENCE SET; Schema: public; Owner: freecodecamp
+--
+
+SELECT pg_catalog.setval('public.majors_major_id_seq', 1, true);
+
+
+--
+-- Name: students_student_id_seq; Type: SEQUENCE SET; Schema: public; Owner: freecodecamp
+--
+
+SELECT pg_catalog.setval('public.students_student_id_seq', 1, false);
+
+
+--
 -- Name: courses courses_pkey; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
 --
 
 ALTER TABLE ONLY public.courses
     ADD CONSTRAINT courses_pkey PRIMARY KEY (course_id);
+
+
+--
+-- Name: majors_courses majors_courses_pkey; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.majors_courses
+    ADD CONSTRAINT majors_courses_pkey PRIMARY KEY (major_id, course_id);
 
 
 --
@@ -181,11 +246,43 @@ ALTER TABLE ONLY public.students
 
 
 --
+-- Name: majors_courses majors_courses_course_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.majors_courses
+    ADD CONSTRAINT majors_courses_course_id_fkey FOREIGN KEY (course_id) REFERENCES public.courses(course_id);
+
+
+--
+-- Name: majors_courses majors_courses_major_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.majors_courses
+    ADD CONSTRAINT majors_courses_major_id_fkey FOREIGN KEY (major_id) REFERENCES public.majors(major_id);
+
+
+--
 -- Name: students students_major_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: freecodecamp
 --
 
 ALTER TABLE ONLY public.students
     ADD CONSTRAINT students_major_id_fkey FOREIGN KEY (major_id) REFERENCES public.majors(major_id);
+
+
+--
+-- Name: students students_major_id_fkey1; Type: FK CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.students
+    ADD CONSTRAINT students_major_id_fkey1 FOREIGN KEY (major_id) REFERENCES public.majors(major_id);
+
+
+--
+-- Name: students students_major_id_fkey2; Type: FK CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.students
+    ADD CONSTRAINT students_major_id_fkey2 FOREIGN KEY (major_id) REFERENCES public.majors(major_id);
 
 
 --
